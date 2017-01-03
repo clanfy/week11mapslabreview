@@ -1,9 +1,15 @@
 var app = function(){
 
-  var populateButton = document.querySelector('button');
+populateLists();
 
- populateButton.onclick = populateLists;
 
+
+select.onchange = selectChanged;
+
+};
+
+var selectChanged = function(){
+  console.log("select changed");
 };
 
 var populateLists = function(){
@@ -15,7 +21,7 @@ var populateLists = function(){
   1. create a new XMLHttpRequest object
   2. set the type of request we want with the url we want to call
   3. set the callback we want it to use when it has completed the call
-  4. sent the request 
+  4. send the request 
 */
 
 var makeRequest = function(url, callback){
@@ -37,13 +43,15 @@ var requestComplete = function(){
   populateList(countries);
 };
 
+
+
 var populateList = function(countries){
-  var ul = document.getElementById('country-list');
+  var select = document.querySelector('#countries');
 
   countries.forEach(function(country){
-    var li = document.createElement('li');
-    li.innerText = country.name;
-    ul.appendChild(li);
+    var option = document.createElement('option');
+    option.innerText = country.name;
+    select.appendChild(option);
   });
 };
 
