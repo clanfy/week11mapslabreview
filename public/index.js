@@ -3,9 +3,6 @@ var app = function(){
 populateLists();
 
 
-
-select.onchange = selectChanged;
-
 };
 
 var selectChanged = function(){
@@ -48,11 +45,30 @@ var requestComplete = function(){
 var populateList = function(countries){
   var select = document.querySelector('#countries');
 
-  countries.forEach(function(country){
+  countries.forEach(function(country, index){
+
+    country.index = index;
+
     var option = document.createElement('option');
-    option.innerText = country.name;
+    option.value = index.toString();
+    option.text = country.name;
     select.appendChild(option);
   });
+
+  select.style.display = 'block';
+
+  select.addEventListener('change', function(event){
+  var index = this.value;
+  var country = countries[index];
+  updateDisplay(country);
+  });
+};
+
+var updateDisplay = function(country){
+  var pTag = document.querySelectorAll('#countriesinfo p');
+  pTag[0].innerText = country.name;
+  pTag[1].innerText = country.population;
+  pTag[2].innerText = country.capital;
 };
 
 
