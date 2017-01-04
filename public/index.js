@@ -27,27 +27,35 @@ var requestComplete = function(){
   populateList(countries);
 };
 
+var displayCached = function(countries){
+  var cached = localStorage.getItem('Country');
+  var selected = countries[0];
+  if (cached) {
+    selected = JSON.parse(cached);
+    var selector = document.querySelector('#countries').selectedIndex = selected.index;
+  }
+  updateDisplay(selected);
+  document.querySelector('#countriesinfo').style.display = 'block';
+};
+
 var populateList = function(countries){
   var select = document.querySelector('#countries');
-
+  displayCached(countries);
   countries.forEach(function(country, index){
-
     country.index = index;
-
     var option = document.createElement('option');
     option.value = index.toString();
     option.text = country.name;
     select.appendChild(option);
   });
-
   select.style.display = 'block';
-
   select.addEventListener('change', function(event){
     var index = this.value;
     var country = countries[index];
     console.log(country);
     updateDisplay(country);
     localStorage.setItem("Country", JSON.stringify(country));
+
   });
 };
 
