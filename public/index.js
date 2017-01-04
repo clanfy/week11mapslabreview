@@ -11,23 +11,21 @@ var populateLists = function(){
   makeRequest(url, requestComplete);
 };
 
-  var makeRequest = function(url, callback){
-    var request = new XMLHttpRequest();
-    request.open("GET", url);
-    request.onload = callback;
-    request.send();
-  };
+var makeRequest = function(url, callback){
+  var request = new XMLHttpRequest();
+  request.open("GET", url);
+  request.onload = callback;
+  request.send();
+};
 
-  var requestComplete = function(){
-    console.log("Whoot!");
-    if (this.status !== 200) return;
-    var jsonString = this.responseText;
+var requestComplete = function(){
+  console.log("Whoot!");
+  if (this.status !== 200) return;
+  var jsonString = this.responseText;
   var countries = JSON.parse(jsonString);
   var country = countries[0];
   populateList(countries);
 };
-
-
 
 var populateList = function(countries){
   var select = document.querySelector('#countries');
@@ -69,7 +67,5 @@ var initMap = function(coords){
     map: map, 
   });
 };
-
-
 
 window.onload = app;
