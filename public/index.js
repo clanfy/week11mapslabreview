@@ -1,8 +1,5 @@
 var app = function(){
-
-populateLists();
-
-
+  populateLists();
 };
 
 var selectChanged = function(){
@@ -14,29 +11,19 @@ var populateLists = function(){
   makeRequest(url, requestComplete);
 };
 
-/*
-  1. create a new XMLHttpRequest object
-  2. set the type of request we want with the url we want to call
-  3. set the callback we want it to use when it has completed the call
-  4. send the request 
-*/
+  var makeRequest = function(url, callback){
+    var request = new XMLHttpRequest();
+    request.open("GET", url);
+    request.onload = callback;
+    request.send();
+  };
 
-var makeRequest = function(url, callback){
-  var request = new XMLHttpRequest();
-  request.open("GET", url);
-  request.onload = callback;
-  request.send();
-};
-
-var requestComplete = function(){
-  console.log("Whoot!");
-  if (this.status !== 200) return;
-  var jsonString = this.responseText;
-  // console.log("json string", jsonString);
+  var requestComplete = function(){
+    console.log("Whoot!");
+    if (this.status !== 200) return;
+    var jsonString = this.responseText;
   var countries = JSON.parse(jsonString);
-  // console.log("countries", countries);
   var country = countries[0];
-  // console.log("country", country);
   populateList(countries);
 };
 
@@ -58,9 +45,10 @@ var populateList = function(countries){
   select.style.display = 'block';
 
   select.addEventListener('change', function(event){
-  var index = this.value;
-  var country = countries[index];
-  updateDisplay(country);
+    var index = this.value;
+    var country = countries[index];
+    console.log(country);
+    updateDisplay(country);
   });
 };
 
@@ -69,7 +57,19 @@ var updateDisplay = function(country){
   pTag[0].innerText = country.name;
   pTag[1].innerText = country.population;
   pTag[2].innerText = country.capital;
+  var coords = {lat: country.latlng[0], lng: country.latlng[1]};
+  initMap(coords);
 };
+
+var initMap = function(coords){
+  var container = document.getElementById('map');
+  var map = new google.maps.Map(container, {center: coords, zoom: 3});
+  var marker = new google.maps.Marker({
+    position: coords, 
+    map: map, 
+  });
+};
+
 
 
 window.onload = app;
