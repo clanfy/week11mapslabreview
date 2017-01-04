@@ -47,6 +47,7 @@ var populateList = function(countries){
     var country = countries[index];
     console.log(country);
     updateDisplay(country);
+    localStorage.setItem("Country", JSON.stringify(country));
   });
 };
 
